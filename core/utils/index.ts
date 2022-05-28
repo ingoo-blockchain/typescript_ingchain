@@ -1,5 +1,5 @@
 import SHA256 from 'crypto-js/sha256'
-import { Block, IBlock } from '../interfaces/block.interface'
+import { IBlock } from '../interfaces/block.interface'
 import merkle from 'merkle'
 
 export function jsonToString<T>(data: T): string {

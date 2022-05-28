@@ -6,6 +6,6 @@ export const GENESIS: Block = {
     hash: '0'.repeat(64),
     previousHash: '0'.repeat(64),
     timestamp: 1231006506,
-    merkleRoot: '0'.repeat(64),
+    merkleRoot: 'A6D72BAA3DB900B03E70DF880E503E9164013B4D9A470853EDC115776323A098',
     data: ['The Times 03/Jan/2009 Chancellor on brink of second bailout for banks'],
 }

@@ -43,6 +43,8 @@ describe('Block', () => {
         })
     })
 
-    // 나중에 할거..
-    describe('mineBlock', () => {})
+    describe('mineBlock', () => {
+        const newBlock: Block = Block.generateNextBlock(GENESIS, ['asfasdf'])
+        expect(newBlock.index - 1).toEqual(GENESIS.index)
+    })
 })
