@@ -35,6 +35,7 @@
         "@types/crypto-js": "^4.1.1",
         "@types/merkle": "^0.6.1",
         "crypto-js": "^4.1.1",
+        "hex-to-binary": "^1.0.1",
         "merkle": "^0.6.0"
     }
 }

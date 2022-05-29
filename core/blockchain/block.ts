@@ -1,4 +1,5 @@
 import { IBlock } from '../interfaces/block.interface'
+import hexToBinary from 'hex-to-binary'
 import { getTimestamp, createHash, jsonToString, getMerkleRoot } from '../utils'
 import { GENESIS } from '../config'
 
@@ -9,6 +10,8 @@ export class Block implements IBlock {
     public previousHash: string
     public timestamp: number
     public merkleRoot: string
+    public difficulty: number
+    public nonce: number
     public data: string[]
 
     constructor(_block: Block) {
@@ -18,6 +21,8 @@ export class Block implements IBlock {
         this.previousHash = _block.previousHash
         this.timestamp = _block.timestamp
         this.merkleRoot = _block.merkleRoot
+        this.difficulty = _block.difficulty
+        this.nonce = _block.nonce
         this.data = _block.data
     }
 
@@ -25,14 +30,22 @@ export class Block implements IBlock {
         return GENESIS
     }
 
-    static generateNextBlock(_prevBlock: Block, data: string[]): Block {
-        const _blockData: IBlock = {
+    static generateBlockHeader(_prevBlock: Block, data: string[]): IBlock {
+        const block: IBlock = {
             version: _prevBlock.version,
             index: _prevBlock.index + 1,
             previousHash: _prevBlock.hash,
             timestamp: getTimestamp(),
             merkleRoot: getMerkleRoot<string>(data),
+            nonce: _prevBlock.nonce,
+            difficulty: _prevBlock.difficulty,
         }
+
+        return block
+    }
+
+    static generateNextBlock(_prevBlock: Block, data: string[]): Block {
+        const _blockData: IBlock = this.generateBlockHeader(_prevBlock, data)
 
         const hash = createHash(_blockData)
 
@@ -47,5 +60,22 @@ export class Block implements IBlock {
         const genesis = this.generatorGenesis()
         if (jsonToString(_block) !== jsonToString(genesis)) return false
         return true
+    }
+
+    // 검색이 맞을떄까지 반복하는 함수
+    static findBlock(_block: Block): Block {
+        let nonce = 0
+        let hashBinary: string, hash: string, requiredPrefix: string
+
+        do {
+            nonce++
+            _block.nonce = nonce
+            _block.timestamp = getTimestamp()
+            hash = createHash(_block)
+            hashBinary = hexToBinary(hash)
+            requiredPrefix = '0'.repeat(_block.difficulty)
+        } while (!hashBinary.startsWith(requiredPrefix))
+
+        return _block
     }
 }

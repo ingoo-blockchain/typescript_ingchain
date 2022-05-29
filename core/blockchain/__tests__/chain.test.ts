@@ -39,7 +39,6 @@ describe('chain', () => {
     })
 
     it('node 체인 검증하기', () => {
-        console.log(node.getChain().length, node2.getChain().length)
         const result = node2.isValidChain(node.getChain())
         expect(result).toBe(true)
     })

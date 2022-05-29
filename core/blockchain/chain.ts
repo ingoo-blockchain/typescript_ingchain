@@ -51,7 +51,6 @@ export class Chain {
         for (let i = 1; i < _newChain.length; i++) {
             const newBlock = _newChain[i]
             const previousBlock = _newChain[i - 1]
-            console.log(newBlock, previousBlock)
             if (!this.isValidNewBlock(newBlock, previousBlock)) return false
         }
         return true

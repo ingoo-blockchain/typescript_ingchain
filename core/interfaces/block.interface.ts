@@ -4,6 +4,8 @@ export interface IBlock {
     previousHash: string
     timestamp: number
     merkleRoot: string
+    difficulty: number
+    nonce: number
 }
 
 export interface Block extends IBlock {
