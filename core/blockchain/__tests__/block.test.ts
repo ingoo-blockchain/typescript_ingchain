@@ -90,15 +90,13 @@ describe('Block', () => {
         it('FindBlock 메서드 체크', () => {
             const newBlock: Block = Block.generateNextBlock(GENESIS, ['asfasdf'])
             newBlock.difficulty = 16
-            const a = Block.findBlock(newBlock)
+            const { block } = Block.findBlock(newBlock)
             const requiredPrefix: string = '0'.repeat(difficulty)
 
-            expect(hexToBinary(createHash(a)).startsWith(requiredPrefix)).toBe(true)
+            expect(hexToBinary(createHash(block)).startsWith(requiredPrefix)).toBe(true)
         })
     })
 })
-
-
 
 // function hashMatcheDifficulty(hash: string, difficulty: number): Boolean {
 //     const bianry = hexToBinary(hash)

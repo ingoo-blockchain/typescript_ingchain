@@ -1,5 +1,6 @@
 import { Block } from './block'
-import { createHash, getMerkleRoot } from '../utils'
+import { getMerkleRoot } from '../utils'
+import { DIFFICULTY_ADJUSTMENT_INTERVAL } from '../config'
 
 export class Chain {
     private blockchain: Block[]
@@ -16,7 +17,27 @@ export class Chain {
         return this.blockchain[this.blockchain.length - 1]
     }
 
-    addBlock(newBlock: Block): Boolean {
+    getAdjustmentBlock(): Block {
+        const block: Block =
+            this.blockchain.length < DIFFICULTY_ADJUSTMENT_INTERVAL
+                ? this.blockchain[0]
+                : this.blockchain[this.blockchain.length - DIFFICULTY_ADJUSTMENT_INTERVAL]
+        return block
+    }
+
+    // update:chain.ts/addBlock
+    // addBlock(newBlock: Block): Boolean {
+    //     if (!this.isValidNewBlock(newBlock, this.getLatestBlock())) return false
+    //     this.blockchain.push(newBlock)
+    //     return true
+    // }
+    addBlock(data: string[]): Boolean {
+        const latestBlock: Block = this.getLatestBlock()
+        const adjustmentBlock: Block = this.getAdjustmentBlock()
+        const difficulty = Block.getDifficulty(latestBlock, adjustmentBlock)
+        latestBlock.difficulty = difficulty
+        const newBlock = Block.generateNextBlock(latestBlock, data)
+
         if (!this.isValidNewBlock(newBlock, this.getLatestBlock())) return false
         this.blockchain.push(newBlock)
         return true

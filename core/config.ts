@@ -1,5 +1,7 @@
 import { Block } from './interfaces/block.interface'
 
+export const BLOCK_GENERATION_INTERVAL: number = 10
+export const DIFFICULTY_ADJUSTMENT_INTERVAL: number = 10
 export const GENESIS: Block = {
     version: '1.0.0',
     index: 0,
