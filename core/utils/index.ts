@@ -1,6 +1,8 @@
 import SHA256 from 'crypto-js/sha256'
 import { IBlock } from '../interfaces/block.interface'
 import merkle from 'merkle'
+import elliptic from 'elliptic'
+const ec = new elliptic.ec('secp256k1')
 
 export function jsonToString<T>(data: T): string {
     return JSON.stringify(data)
@@ -20,3 +22,5 @@ export function getMerkleRoot<T>(data: T[]): string {
     const merkleTree = merkle('sha256').sync(data)
     return merkleTree.root() || '0'.repeat(64)
 }
+
+// export function verifySignature() {}
