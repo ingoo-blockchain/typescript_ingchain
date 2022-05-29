@@ -44,6 +44,7 @@ export class Chain {
     }
 
     isValidNewBlock(_newBlock: Block, _previousBlock: Block): Boolean {
+        const test = Block.isValidTimestamp(_newBlock, _previousBlock)
         switch (true) {
             // 이전블록 Index 검증
             case _newBlock.index !== _previousBlock.index + 1:
@@ -56,6 +57,10 @@ export class Chain {
             // 새로만들 블록의 Data 내용이 변경사항이없는지 체크
             case getMerkleRoot(_newBlock.data) !== _newBlock.merkleRoot:
                 console.log('Invalid merkleRoot')
+                return false
+            // step 2. 블록 생성주기를 config 파일 참고하여 생성 시간둠.
+            case !Block.isValidTimestamp(_newBlock, _previousBlock) === true:
+                console.log('nvalid timestamp')
                 return false
             default:
                 return true

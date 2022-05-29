@@ -1,7 +1,7 @@
 import { IBlock } from '../interfaces/block.interface'
 import hexToBinary from 'hex-to-binary'
 import { getTimestamp, createHash, jsonToString, getMerkleRoot } from '../utils'
-import { GENESIS, DIFFICULTY_ADJUSTMENT_INTERVAL, BLOCK_GENERATION_INTERVAL } from '../config'
+import { GENESIS, DIFFICULTY_ADJUSTMENT_INTERVAL, BLOCK_GENERATION_INTERVAL, BLOCK_GENERATION_TIME } from '../config'
 
 export class Block implements IBlock {
     public version: string
@@ -97,5 +97,14 @@ export class Block implements IBlock {
         else if (timeTaken > timeExpected * 2) num = -1
 
         return _adjustmentBlock.difficulty + num
+    }
+
+    // 블록만들기위해서 최소 1분있다가 만들수있도록 설정 임시로 무저건 true
+    static isValidTimestamp(_newBlock: Block, _previousBlock: Block) {
+        return true
+        // return (
+        //     _previousBlock.timestamp < _newBlock.timestamp - BLOCK_GENERATION_TIME &&
+        //     _newBlock.timestamp - BLOCK_GENERATION_TIME < getTimestamp()
+        // )
     }
 }
