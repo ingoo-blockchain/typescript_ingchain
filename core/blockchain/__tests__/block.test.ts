@@ -100,7 +100,6 @@ describe('Block', () => {
 
 
 
-
 // function hashMatcheDifficulty(hash: string, difficulty: number): Boolean {
 //     const bianry = hexToBinary(hash)
 //     const requiredPrefix: string = '0'.repeat(difficulty)
